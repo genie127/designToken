@@ -1,0 +1,248 @@
+/**
+* Media query
+*/
+@mixin max-w($attr) {
+	@media all and (max-width: #{$attr}px) {
+		@content;
+	}
+}
+@mixin min-w($attr) {
+	@media all and (min-width: #{$attr}px) {
+		@content;
+	}
+}
+@mixin min-max-w($min, $max) {
+	@media all and (min-width: #{$min}px) and (max-width: #{$max}px) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@include min-w(#{$desktop}) {
+		@content;
+	}
+}
+
+@mixin tablet {
+	@include max-w(#{$tablet}) {
+		@content;
+	}
+}
+
+@mixin mobile {
+	@include max-w(#{$mobile}) {
+		@content;
+	}
+}
+
+@mixin fullscreen($z: 1, $p: 'absolute') {
+	position: #{$p};
+	top: 0;
+	left: 0;
+	z-index: $z;
+	width: 100%;
+	height: 100%;
+}
+
+/**
+* Others
+*/
+@mixin clearfix {
+	&:after {
+		content: ' ';
+		display: table;
+		width: 100%;
+		clear: both;
+	}
+}
+
+@mixin disable($boolean: true) {
+	@if $boolean == true {
+		user-select: none;
+		pointer-events: none;
+		touch-action: none;
+	} @else {
+		user-select: auto;
+		pointer-events: auto;
+		touch-action: auto;
+	}
+}
+
+@mixin placeholder {
+	&::-webkit-input-placeholder {
+		@content;
+	}
+	&::-moz-placeholder {
+		@content;
+	}
+	&:-ms-input-placeholder {
+		@content;
+	}
+	&:-moz-placeholder {
+		@content;
+	}
+	&::placeholder {
+		@content;
+	}
+}
+
+@mixin text-ellipsis() {
+	display: inline-block;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+@mixin box-ellipsis($line: 3, $lineHeight: 20px, $boxHeight: 'auto') {
+	display: -webkit-box;
+	-webkit-line-clamp: $line;
+	-webkit-box-orient: vertical;
+	@if ($boxHeight) == 'fixed' {
+		height: $lineHeight * $line;
+	} @else {
+		max-height: $lineHeight * $line;
+		height: auto;
+	}
+	line-height: $lineHeight;
+	text-align: left;
+	word-break: break-all;
+	word-wrap: break-word;
+	white-space: normal;
+	overflow: hidden;
+}
+
+@mixin box-sizing {
+	& {
+		box-sizing: border-box;
+
+		&::before,
+		&::after {
+			box-sizing: border-box;
+		}
+
+		* {
+			box-sizing: border-box;
+
+			&::before,
+			&::after {
+				box-sizing: border-box;
+			}
+		}
+	}
+}
+
+@mixin custom-cursor($path, $x: 0, $y: 0) {
+	cursor: url('#{$path}') $x $y, auto !important;
+
+	// IE 에서는 x, y 축 이동이 불가능하기 때문에 auto로 초기화
+	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+		cursor: url('#{$path}'), auto !important;
+	}
+}
+
+// 리뉴얼
+@mixin flex( $align: '' ) {
+	display: flex;
+
+	@if #{$align} == '' {
+		align-items: center;
+	} @else if #{$align} == 'wrap' {
+		flex-wrap: wrap;
+	} @else if #{$align} == 'center' {
+		justify-content: center;
+		align-items: center;
+	} @else if #{$align} == 'between' {
+		justify-content: space-between;
+		align-items: center;
+	} @else if #{$align} == 'column' {
+		flex-direction: column;
+	}
+}
+
+@mixin position( $top: auto, $right: auto, $bottom: auto, $left: auto ) {
+	position: absolute;
+	top: $top;
+	right: $right;
+	bottom: $bottom;
+	left: $left;
+}
+
+@mixin ellipsis( $line: '', $num: 2, ) {
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	@if #{$line} == '' {
+		display: block;
+		white-space: nowrap;
+	} @else if #{$line} == 'lines' {
+		display: -webkit-box;
+		word-break: break-word;
+		-webkit-line-clamp: #{$num};
+		-webkit-box-orient: vertical;
+	}
+}
+
+@mixin font( $weight: 400, $size: 15px, $color: #000, $align: '' ) {
+	font-weight: #{$weight};
+	font-size: #{$size};
+	color: #{$color};
+
+	@if #{$align} == '' {
+		text-align: left;
+	} @else if #{$align} == 'center' {
+		text-align: center;
+	} @else if #{$align} == 'right' {
+		text-align: right;
+	}
+}
+
+@mixin popBtn( $top: 0, $right: 0, $size: 'small', $color: 'white' ) {
+    z-index: 1;
+	position: absolute;
+	top: #{$top};
+	right: #{$right};
+	text-indent: -9999px;
+
+	@if #{$size} == 'small' {
+		width: 24px;
+		height: 24px;
+		background: url('#{get-cdn(comm)}/close_24x24_#{$color}.png') no-repeat;
+	} @else if #{$size} == 'mid' {
+		width: 29px;
+		height: 29px;
+		background: url('#{get-cdn(comm)}/close_29x29_#{$color}.png') no-repeat;
+	} @else if #{$size} == 'large' {
+		width: 36px;
+		height: 36px;
+		background: url('#{get-cdn(comm)}/close_36x36_#{$color}.png') no-repeat;
+	}
+}
+
+@mixin thumb-dim( $opc: 0.8, $bg: #000 ) {
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $bg;
+        opacity: $opc;
+    }
+}
+
+@mixin thumb-icon( $img, $w: 'auto', $h: 'auto' ) {
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: $w;
+        height: $h;
+        transform: translate(-50%, -50%);
+        background-image: url('#{$img}');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: $w, $h; 
+    }
+}

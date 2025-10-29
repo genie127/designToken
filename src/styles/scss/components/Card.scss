@@ -1,0 +1,141 @@
+
+@import '../base/variables';
+@import '../base/mixins';
+
+.sass{
+    @include flex('wrap');
+    gap:20px;
+
+    .list{
+        position: relative;
+        width: 240px;
+
+        .cate{
+            @include position(12px, auto, auto, 12px);
+            @include flex();
+            z-index: 2;
+
+            i{
+                @include flex();
+                gap:4px;
+                padding: 5px 14px 5px 10px;
+                background: rgba(49,49,49,.8);
+                border-radius:$round-btn;
+                text-transform: uppercase;
+                font:$pc-label-r-xs;
+                letter-spacing: -.02em;
+                
+                &:before{
+                    content:'';
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    background:no-repeat center center;
+
+                }
+                
+                &.pro{
+                    color:#FFEC1B;
+                    &:before{
+                        background-image:url($cdn+'/penbook/ico_cate_pro.webp');
+                    }
+                }
+                &.v1{
+                    color:#81fbff;
+                    &:before{
+                        background-image:url($cdn+'/penbook/ico_cate_v1.webp');
+                    }
+                }
+            }
+        }
+        .add_cart{
+            @include position(12px, 12px, auto, auto);
+            width: 28px;
+            height: 28px;
+            z-index: 2;
+
+            a{
+                display: block;
+                width: 100%;
+                height: 100%;
+                border-radius:50%;
+                background: $g300 url($cdn+'/penbook/ico_cart_off.webp') no-repeat center center;
+                text-indent: -999em;
+
+                &.on{
+                    background-color:$p400;
+                    background-image:url($cdn+'/penbook/ico_cart_on.webp');
+                }
+            }
+
+        }
+        .thumb{
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 200px;
+            border-radius:12px;
+            overflow: hidden;
+            background: #f5f5f5;
+
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            .buy_box{
+                @include position(auto, 0,0,0);
+                opacity:0;
+                visibility: hidden;
+                transition:.3s;
+
+                a{
+                    display: block;
+                    padding: 8px;
+                    background: rgba(97,97,97,.8);
+                    @include font(700,16px,#fff,center);
+                }
+            }
+        }
+        .info_box{
+            
+            .subject{
+                padding: 16px 16px 0;
+                @include font(500,16px,$g900);
+                @include ellipsis();
+
+            }
+        }
+        .price_box{
+            @include flex('between');
+            align-items: flex-end;
+            padding: 8px 16px 16px;
+
+            .sale{
+                @include font(700, 16px, #f00)
+            }
+            .price_info{
+                @include flex('column');
+                align-items: flex-end;
+                width: 100%;
+
+                del{
+                    @include font(500,16px,$g500);
+                }
+                .price{
+                    @include font(700,20px,$g800);
+                }
+            }
+        }
+        
+        &:hover{
+            .thumb{
+                .buy_box{
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+
+    }
+}
